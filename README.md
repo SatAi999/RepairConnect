@@ -248,7 +248,7 @@ Create a new **Web Service** on Render connected to your GitHub repository:
 * **Build Command**: `npm install && npm run build`
 * **Start Command**: `node dist/index.js`
 * **Environment Variables**:
-  * `MONGODB_URI` = `mongodb+srv://kumarsatwik2110_db_user:Wh22FlTzpBJYqiJj@cluster0.wbehmva.mongodb.net/repairconnect`
+  * `MONGODB_URI` = `mongodb+srv://<db_user>:<db_password>@cluster0.wbehmva.mongodb.net/repairconnect`
   * `JWT_SECRET` = `RepairConnectSecureSecretKey2026!`
   * `CLIENT_URL` = `https://repair-connect-nine.vercel.app` *(Your Vercel frontend URL)*
   * `AI_API_KEY` = `not_needed_for_demo`
