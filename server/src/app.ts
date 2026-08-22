@@ -22,7 +22,10 @@ const app = express();
 // Enable CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5188',
+    origin: (origin, callback) => {
+      // Return true to dynamically echo origin, enabling safe credentials check
+      callback(null, true);
+    },
     credentials: true,
   })
 );
