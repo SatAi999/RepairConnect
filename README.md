@@ -1,4 +1,4 @@
-﻿# ♻️ RepairConnect: The Universal Circular Economy & Intelligent Diagnostics Suite
+# ♻️ RepairConnect: The Universal Circular Economy & Intelligent Diagnostics Suite
 
 > **"Urban Company starts when the customer knows what service they need. RepairConnect starts when they don't."**
 
@@ -219,3 +219,35 @@ Open three terminal windows:
   # Run the FastAPI server directly using the virtual environment python
   D:\Computer_Vision\venv\Scripts\python.exe D:\Computer_Vision\vision_service.py
   ```
+
+---
+
+## 🌐 Production Cloud Deployment Guide
+
+Follow this guide to deploy the full platform to production.
+
+### 1. Deploying Backend (Render)
+Create a new **Web Service** on Render connected to your GitHub repository:
+* **Root Directory**: `server`
+* **Build Command**: `npm install && npm run build`
+* **Start Command**: `node dist/index.js`
+* **Environment Variables**:
+  * `MONGODB_URI` = `mongodb+srv://kumarsatwik2110_db_user:Wh22FlTzpBJYqiJj@cluster0.wbehmva.mongodb.net/repairconnect`
+  * `JWT_SECRET` = `RepairConnectSecureSecretKey2026!`
+  * `CLIENT_URL` = `https://repair-connect-nine.vercel.app` *(Your Vercel frontend URL)*
+  * `AI_API_KEY` = `not_needed_for_demo`
+  * `AI_MODEL` = `gemini-1.5-flash`
+  * `DEMO_MODE` = `true`
+
+### 2. Deploying Frontend (Vercel)
+Create a new **Project** on Vercel:
+* **Root Directory**: `client`
+* **Framework Preset**: `Vite` (automatically detected)
+* **Environment Variables**:
+  * `VITE_API_URL` = `https://repairconnect.onrender.com/api` *(Your Render backend URL)*
+
+### 3. Database Security Setup (MongoDB Atlas)
+* In the Atlas dashboard, navigate to **`Security Quickstart`** in the left sidebar.
+* Under the **IP Access List** section, add `0.0.0.0/0` (Allow Access from Anywhere) to authorize incoming connections from Render's dynamic IP servers.
+* Click **Finish and Close** to apply the configuration.
+
