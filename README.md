@@ -1,20 +1,20 @@
-﻿# ♻️ RepairConnect: The Circular Economy Hub for Electronics Lifecycle
+# ♻️ RepairConnect: The Universal Circular Economy Hub for Everyday Products
 
 > **"Urban Company starts when the customer knows what service they need. RepairConnect starts when they don't."**
 
-RepairConnect is a production-ready, hackathon-winning lifecycle platform for consumer electronics. It bridges the gap between diagnostic uncertainty, physical technician verification, and responsible circular recovery.
+RepairConnect is a production-ready, hackathon-winning lifecycle platform for **everything we see and use everyday** — from smartphones and air conditioners to bicycles, tools, home appliances, and furniture. It bridges the gap between diagnostic uncertainty, physical technician verification, and responsible circular recovery.
 
 ---
 
 ## 📌 The Problem & The Mission
 
-### The E-Waste Crisis
-Every year, millions of tons of functional and non-functional electronics are discarded blindly. When a consumer's device fails, they face an asymmetric choice: pay an unknown repair price, or sell it to a local informal scrap dealer for pennies. 
+### The Household Discard Crisis
+Every year, millions of tons of functional and non-functional everyday items (furniture, appliances, tools, electronics) are discarded blindly. When a consumer's product fails, they face an asymmetric choice: pay an unknown repair price, or sell it to a local informal scrap dealer for pennies. 
 
 ### The Hidden Value
 A "dead" product is rarely completely valueless. It contains:
-1. **Reusable Components**: Working RAM, SSDs, displays, cameras, and power supplies.
-2. **Recoverable Raw Materials**: Copper, aluminium, steel, and plastics.
+1. **Reusable Components**: Working batteries, memory chips, screens, motors, blades, hardware gears, and structural joints.
+2. **Recoverable Raw Materials**: Copper, aluminium, steel, premium timber, and plastics.
 3. **Refurbishment Potential**: Products that are economically impractical for a single consumer to repair but highly valuable for refurbishers to rebuild.
 
 ### The RepairConnect Solution
