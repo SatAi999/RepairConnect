@@ -154,6 +154,22 @@ Link directly to our primary files and logic:
 
 ---
 
+## 🔑 Demo Account Credentials
+
+Use these credentials to log in and test different user roles (all accounts use the password **`password123`**):
+
+| Role | Email | Password | Allowed Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Customer** | `customer@example.com` | `password123` | Create repair cases, upload device photos, start diagnostics, compare offers, and view the Product Passport. |
+| **Repair Technician (QuickFix)** | `quickfix@example.com` | `password123` | Inspect requests, set bids, provide pricing, and mark cases as Beyond Repair to trigger Recovery mode. |
+| **Repair Technician (Express Tech)** | `repairer@example.com` | `password123` | Alternate repairer shop account. |
+| **Recovery Partner (Recycler)** | `demorecycler@example.com` | `password123` | View recovery cases, submit pickup bids, update pickup status, and complete the recovery weight processing. |
+| **Recovery Partner (Refurbisher)** | `demorefurbisher@example.com` | `password123` | Submit bids to refurbish products. |
+| **Recovery Partner (Scrap Buyer)** | `demoscrap@example.com` | `password123` | Submit local scrap bids. |
+| **Platform Admin** | `admin@example.com` | `password123` | View global circularity dashboards, audit users, and manage material rates. |
+
+---
+
 ## 🏆 Hackathon Demo Scenario Walkthrough
 
 Follow these steps for a complete 3-minute hackathon demonstration:
