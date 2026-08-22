@@ -1,175 +1,221 @@
-# ♻️ RepairConnect: The Universal Circular Economy Hub for Everyday Products
+﻿# ♻️ RepairConnect: The Universal Circular Economy & Intelligent Diagnostics Suite
 
 > **"Urban Company starts when the customer knows what service they need. RepairConnect starts when they don't."**
 
-RepairConnect is a production-ready, hackathon-winning lifecycle platform for **everything we see and use everyday** — from smartphones and air conditioners to bicycles, tools, home appliances, and furniture. It bridges the gap between diagnostic uncertainty, physical technician verification, and responsible circular recovery.
+RepairConnect is a production-quality, enterprise-grade lifecycle platform designed to solve the global household discard crisis. It prevents everyday items—electronics, furniture, mechanical tools, home appliances, and vehicles—from being blindly dumped into landfills by guiding users through an intelligent diagnostic pipeline, a strict technician gatekeeper review, and a certified circular recovery marketplace.
 
 ---
 
-## 📌 The Problem & The Mission
+## 📖 Table of Contents
+1. [The Discard Crisis & Our Mission](#-the-discard-crisis--our-mission)
+2. [Deep Dive: The 8 "Wow" Features](#-deep-dive-the-8-wow-features)
+   - [Visual AI & OCR Inspection](#1-visual-ai--ocr-inspection-live-yolov11)
+   - [Voice-Activated Diagnostics & Safety Gate](#2-voice-activated-diagnostics--safety-gate)
+   - [Technician Gatekeeper Audit](#3-technician-gatekeeper-audit)
+   - [Circularity Hierarchy Visualizer](#4-circularity-hierarchy-visualizer)
+   - [Market Valuation & Bidding Engine](#5-market-valuation--bidding-engine)
+   - [Timeline-Based Product Passport](#6-timeline-based-product-passport)
+   - [Circularity Diverted Weight Dashboard](#7-circularity-diverted-weight-dashboard)
+   - [Green Recovery Certificates](#8-green-recovery-certificates)
+3. [Controlled State Machine](#-controlled-state-machine)
+4. [Backend Schema & Architecture Design](#-backend-schema--architecture-design)
+5. [Complete Source Code Directory Mapping](#-complete-source-code-directory-mapping)
+6. [Hackathon Demo Scenario walkthrough](#-hackathon-demo-scenario-walkthrough)
+7. [Installation & Local Run Guide](#-installation--local-run-guide)
 
-### The Household Discard Crisis
-Every year, millions of tons of functional and non-functional everyday items (furniture, appliances, tools, electronics) are discarded blindly. When a consumer's product fails, they face an asymmetric choice: pay an unknown repair price, or sell it to a local informal scrap dealer for pennies. 
+---
 
-### The Hidden Value
-A "dead" product is rarely completely valueless. It contains:
-1. **Reusable Components**: Working batteries, memory chips, screens, motors, blades, hardware gears, and structural joints.
-2. **Recoverable Raw Materials**: Copper, aluminium, steel, premium timber, and plastics.
-3. **Refurbishment Potential**: Products that are economically impractical for a single consumer to repair but highly valuable for refurbishers to rebuild.
+## 📌 The Discard Crisis & Our Mission
 
-### The RepairConnect Solution
-RepairConnect guides the customer through a verified, evidence-based pathway:
-```text
-PRODUCT → CUSTOMER REPORT → AI/VISION ASSISTED DIAGNOSIS → TECHNICIAN GATEKEEPER → REPAIR
-                                                                                     ↓ (If Beyond Repair)
-                                                                             RECOVERY MARKETPLACE
+### The Problem
+When household items break down, consumers face severe **information asymmetry**. They do not know:
+* If the item is physically salvageable.
+* If individual components (like a laptop SSD or an AC fan motor) are reusable.
+* If the item contains recoverable metals (copper, aluminium) that have real salvage value.
+As a result, items are either dumped in trash bins or sold to local scrap dealers for arbitrary, undervalued cash, leading to severe resource loss and environmental degradation.
+
+### The Mission
+RepairConnect introduces an **evidence-based circular pathway**. We maximize product lifetime through structured decisions, ensuring that when an item genuinely cannot be repaired, its components and raw materials are harvested by verified recovery partners.
+
+---
+
+## 💎 Deep Dive: The 8 "Wow" Features
+
+### 1. Visual AI & OCR Inspection (Live YOLOv11)
+* **What it does**: Allows users to upload three distinct angles of their damaged item (Front, Back/Ports, and Damage Close-up).
+* **The Tech**: 
+  * Integrates with a local **FastAPI Visual Server** running Python 3.10+ in the `D:/Computer_Vision/venv` virtual environment.
+  * **Real-time YOLOv11 Detection**: Parses the image to locate products and key external sub-assemblies (e.g., keyboards, screens, motors, compressor vents).
+  * **OpenCV Quality Filter**: Measures image sharpness using Laplacian variance ($\sigma^2 < 50$ throws a blur warning) and brightness averages ($30 < \mu < 240$) to prevent poor-quality inputs from corrupting data.
+  * **Pytesseract OCR**: Scans product label stickers to extract brand names (HP, LG, Samsung) and filter out serial numbers to protect privacy.
+* **Wow Factor**: Color-coded confidence indicators and visual bounding boxes that make the AI's "thoughts" clear to the user.
+
+### 2. Voice-Activated Diagnostics & Safety Gate
+* **What it does**: Guides the customer through an interactive symptom tree tailored to the product category (Air Conditioner, Laptop, Bicycle, etc.).
+* **The Tech**:
+  * **Web Speech API**: Customers can click the microphone icon and speak answers ("Yes", "No", "No power") naturally.
+  * **Safety Gate Overrides**: If the user mentions fire, smoke, sparks, exposed wiring, or a burning smell, the engine triggers an **instant fullscreen Safety Gate alert**. This blocks further testing and advises the user to unplug the device and consult emergency services.
+* **Wow Factor**: Hands-free operation with built-in safety rules that prioritize human well-being.
+
+### 3. Technician Gatekeeper Audit
+* **What it does**: Customers cannot bypass inspection and send items directly to the recycling market. Only a certified repair technician can route a case to "Recovery Mode".
+* **The Tech**:
+  * The technician reviews the device in the workshop and records a formal report choosing:
+    * `REPAIRABLE` (Routes back to the normal repair timeline)
+    * `BEYOND_REPAIR` / `ECONOMICALLY_IMPRACTICAL` / `CUSTOMER_DECLINED` (Unlocks the Recovery Marketplace)
+  * Captures detailed notes, component status lists, and technician signatures.
+* **Wow Factor**: Maintains database integrity and stops the marketplace from being flooded with repairable items.
+
+### 4. Circularity Hierarchy Visualizer
+* **What it does**: Shows a signature status checklist tracing the exact circular economy layers:
+  `REPAIR` $\rightarrow$ `REUSE` $\rightarrow$ `REFURBISH` $\rightarrow$ `COMPONENT RECOVERY` $\rightarrow$ `RECYCLING` $\rightarrow$ `DISPOSAL`
+* **The Tech**:
+  * A React component in `RecoveryCenter.tsx` evaluates the case's current status and highlights the active pathway.
+  * Renders color-coded status badges: Green (🟢 Recommended), Yellow (🟡 Evaluated), Red (❌ Not Viable), and Gray (⚪ Zero-Waste).
+* **Wow Factor**: Instantly conveys the circular lifecycle hierarchy to judges and users.
+
+### 5. Market Valuation & Bidding Engine
+* **What it does**: Displays indicative material values and lets real recovery partners submit bids.
+* **The Tech**:
+  * **Indicative Calculations**: Uses product average weights multiplied by local scrap rates (copper, steel, aluminium) to estimate value boundaries.
+  * **Insufficient Data Warning**: If weight or material composition is unknown, it prompts the user to "Get actual partner offers" instead of displaying guessed prices.
+  * **Net Value Calculator**: Calculates the real value of bids: `Net Value = Offer Amount - Pickup Fee`.
+  * **Warning Banner**: Highlights bids that fall below the indicative range, encouraging users to wait for better offers.
+* **Wow Factor**: Complete price transparency that protects consumers from lowball offers.
+
+### 6. Timeline-Based Product Passport
+* **What it does**: Renders an immutable lifecycle ledger for each registered product.
+* **The Tech**:
+  * Implemented using a custom schema in `ProductPassport.ts` that tracks events (REGISTERED, DIAGNOSED, REPAIR_ATTEMPT, BEYOND_REPAIR, RECOVERY_STARTED, COMPLETED).
+  * Automatically appends actors (Customer, System, Technician, Partner) and descriptions to each event.
+* **Wow Factor**: Renders a beautiful visual timeline that serves as a digital product log.
+
+### 7. Circularity Diverted Weight Dashboard
+* **What it does**: A public analytics dashboard showing real, database-backed circular metrics.
+* **The Tech**:
+  * Aggregates completed cases to display:
+    * Products Repaired
+    * Products Reused/Refurbished
+    * Components Salvaged
+    * Diverted Landfill Weight (in kg)
+  * Uses div-based charts to render pathway distributions.
+* **Wow Factor**: Real dashboard metrics that display actual progress without using fake CO₂ savings.
+
+### 8. Green Recovery Certificates
+* **What it does**: Generates a downloadable certificate after recovery is completed.
+* **The Tech**:
+  * Recovery partners verify and input the actual weight of the collected item.
+  * Generates a digital receipt listing the Case ID, brand, verified weight, and recovery pathway.
+* **Wow Factor**: Provides a tangible reward for participating in the circular economy.
+
+---
+
+## 🔄 Controlled State Machine
+
+Status transitions are strictly validated in both the backend controllers and database triggers:
+
+| Source Status | Triggering Action | Destination Status | Allowed Actor |
+| :--- | :--- | :--- | :--- |
+| `DIAGNOSED` | Request Service | `REQUESTED` | Customer |
+| `REQUESTED` | Accept Bid | `ACCEPTED` | Repair Shop |
+| `ACCEPTED` | Start Inspection | `IN_REPAIR` | Repair Shop |
+| `IN_REPAIR` | Mark Beyond Repair | `RECOVERY_ELIGIBLE` | Technician Only |
+| `RECOVERY_ELIGIBLE` | Accept Recovery Offer | `IN_RECOVERY` | Customer |
+| `IN_RECOVERY` | Complete Processing | `RECOVERY_COMPLETED` | Recovery Partner |
+
+* **Invalid Transition Example**: Customer or AI attempts to set status directly to `RECOVERY_ELIGIBLE` without a signed `TechnicianInspection` record $\rightarrow$ **Blocked (403/400 Validation Error)**.
+
+---
+
+## 📁 Complete Source Code Directory Mapping
+
+Link directly to our primary files and logic:
+
+### Mongoose Models
+* [`User.ts`](file:///d:/RepairConnect/server/src/models/User.ts) — added `RECOVERY_PARTNER` role.
+* [`RepairCase.ts`](file:///d:/RepairConnect/server/src/models/RepairCase.ts) — handles new circular statuses.
+* [`TechnicianInspection.ts`](file:///d:/RepairConnect/server/src/models/TechnicianInspection.ts) — gatekeeper inspection database logs.
+* [`RecoveryAssessment.ts`](file:///d:/RepairConnect/server/src/models/RecoveryAssessment.ts) — stores potential streams.
+* [`ProductPassport.ts`](file:///d:/RepairConnect/server/src/models/ProductPassport.ts) — records the lifecycle timeline.
+* [`VisionAnalysis.ts`](file:///d:/RepairConnect/server/src/models/VisionAnalysis.ts) — holds image quality & YOLO coordinates.
+
+### Services & Controllers
+* [`DiagnosticEngine.ts`](file:///d:/RepairConnect/server/src/services/DiagnosticEngine.ts) — rule-based diagnostic trees.
+* [`RecoveryEngine.ts`](file:///d:/RepairConnect/server/src/services/RecoveryEngine.ts) — pathways and valuation math.
+* [`visionController.ts`](file:///d:/RepairConnect/server/src/controllers/visionController.ts) — interfaces with the FastAPI Python server.
+* [`inspectionController.ts`](file:///d:/RepairConnect/server/src/controllers/inspectionController.ts) — registers technician decisions.
+
+### Frontend Views
+* [`VisionInspection.tsx`](file:///d:/RepairConnect/client/src/pages/VisionInspection.tsx) — visual inspection uploader.
+* [`DiagnosticFlow.tsx`](file:///d:/RepairConnect/client/src/pages/DiagnosticFlow.tsx) — symptom trees with voice capture.
+* [`RecoveryCenter.tsx`](file:///d:/RepairConnect/client/src/pages/RecoveryCenter.tsx) — checklist, pathway visual, and biddings.
+* [`ProductPassport.tsx`](file:///d:/RepairConnect/client/src/pages/ProductPassport.tsx) — lifecycle logs and certificate downloads.
+* [`CircularityDashboard.tsx`](file:///d:/RepairConnect/client/src/pages/CircularityDashboard.tsx) — platform statistics.
+
+---
+
+## 🏆 Hackathon Demo Scenario Walkthrough
+
+Follow these steps for a complete 3-minute hackathon demonstration:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Customer as Customer (Web)
+    actor Technician as Technician (Web)
+    actor Partner as Recovery Partner (Web)
+    participant Server as Node.js Backend
+    participant ML as FastAPI Vision (YOLO)
+
+    Customer->>Server: Register Case (Dell Laptop)
+    Customer->>ML: Upload Damage Photos (Front/Back)
+    ML-->>Customer: Bounding box overlay & label (HP, 87% conf)
+    Customer->>Server: Start Diagnostics Q&A (Voice inputs)
+    Note over Customer: Safety alert triggers if "Sparks/Smoke" chosen
+    Technician->>Server: Start workshop inspection
+    Technician->>Server: Submit Inspection: BEYOND_REPAIR
+    Note over Server: Status moves to RECOVERY_ELIGIBLE. Passport created.
+    Customer->>Server: Enter Recovery Center
+    Customer->>Server: Compare Bids (Demo Recycler A vs B)
+    Customer->>Server: Accept Offer (₹2,700)
+    Partner->>Server: Pick up item, enter scale weight (2.8 kg)
+    Partner->>Server: Mark status: RECOVERY_COMPLETED
+    Customer->>Server: Print Circular Recovery Certificate
 ```
 
 ---
 
-## ⚡ Key Core Features (V2 Intelligence Modules)
+## ⚙️ Installation & Local Run Guide
 
-### 1. The Technician Gatekeeper (Critical Business Rule)
-AI or customers can **never** independently declare a product "scrap". To prevent fraud and preserve device lifespans, the Circular Recovery marketplace unlocks **only** when an assigned repair professional explicitly submits a decision:
-* `BEYOND_REPAIR`
-* `ECONOMICALLY_IMPRACTICAL`
-* `CUSTOMER_DECLINED_REPAIR`
-This action creates a permanent, signed **Technician Inspection Report** with evidence photos and affected component logs.
-
-### 2. Live YOLOv11 & OCR Vision Engine
-Powered by a dedicated **Python FastAPI Vision Service** running in a PyTorch virtual environment:
-* **YOLOv11 Object Detection**: Identifies products and structural damages.
-* **OpenCV Image Quality**: Evaluates blur (Laplacian variance) and average brightness before processing.
-* **Tesseract OCR**: Extracts serial numbers, model plates, and brands to auto-populate metadata without hallucination.
-* **Graceful Fallback**: Bypasses network or service drops smoothly using simulated Node.js predictions.
-
-### 3. Interactive Q&A Decision Trees & Safety Gate
-* Rule-based diagnostic trees for **Air Conditioners, Laptops, Ceiling Fans, Washing Machines, Refrigerators, and Smartphones**.
-* **Safety Gate**: Instantly blocks diagnostics and shows emergency fullscreen alerts if safety-critical indicators (burning smell, sparks, exposed wire, battery swelling) are selected.
-* **Speech-to-Text Input**: Integrates with the browser's Web Speech API to capture verbal symptom answers.
-
-### 4. Circular Recovery Center & Marketplace
-* **circulatory Hierarchy Visual**: Displays a signature status flow showing current case position:
-  `🔧 REPAIR` $\rightarrow$ `🔄 REUSE` $\rightarrow$ `🛠 REFURBISH` $\rightarrow$ `🧩 COMPONENT RECOVERY` $\rightarrow$ `♻️ RECYCLING` $\rightarrow$ `⚪ DISPOSAL`.
-* **Indicative Valuation Engine**: Calculates estimated value boundaries using weight mix factors and configurable market rates (with explicit `DEMO DATA` labeling).
-* **Live Partner Bidding**: Real recyclers, refurbishers, and dismantlers submit custom offers.
-* **Comparison Engine**: Calculates `Net Value = Offer Amount - Pickup Fee` and sorts options.
-
-### 5. Product Passport & Digital Certificates
-* **Product Passport**: An immutable ledger tracking a product's entire history: Registration, Diagnosis, Repair Attempts, Beyond Repair Confirmation, Component Salvage, and Recycling completion.
-* **Recovery Certificate**: A signed digital certificate containing verified pickup weights, partner timestamps, and circular pathways to prove responsible landfill diversion.
-
----
-
-## 🏗 System Architecture & Stack
-
-```text
-                                  +-------------------+
-                                  |   React Client    |
-                                  |    (Port 5188)    |
-                                  +---------+---------+
-                                            | HTTP / REST
-                                            v
-                                  +-------------------+
-                                  |   Express Server  |
-                                  |    (Port 5005)    |
-                                  +----+----+----+----+
-                                       |    |    |
-                 +---------------------+    |    +---------------------+
-                 | Mongoose                 | fetch                    | Google AI SDK
-                 v                          v                          v
-     +-----------------------+   +-----------------------+   +-------------------+
-     |  MongoDB Atlas Shard  |   | Python Vision Service |   |  Gemini 1.5 Flash |
-     |      (Mongoose 8)     |   |      (Port 5010)      |   |  (Demo Fallback)  |
-     +-----------------------+   +-----------------------+   +-------------------+
-                                 |  YOLOv11 & OCR Engine |
-                                 +-----------------------+
-```
-
-* **Frontend**: React 18, TypeScript, Tailwind CSS, Leaflet Maps, Lucide icons, Axios.
-* **Backend**: Node.js, Express, TypeScript, Mongoose 8.
-* **AI & CV**: FastAPI (Uvicorn), PyTorch, Ultralytics YOLOv11, OpenCV, Pytesseract OCR.
-
----
-
-## ⚙️ Quickstart & Local Installation
-
-### Prerequisites
+### 1. Requirements
 * **Node.js** (v18+)
-* **MongoDB** (Atlas connection recommended)
-* **Python** (v3.10+) with `tesseract` binary installed on system PATH
+* **MongoDB Atlas**
+* **Python** (v3.10) with `tesseract` binary installed on system PATH.
 
-### 1. Clone & Install Dependencies
-```bash
-# Clone the repo
-git clone https://github.com/SatAi999/RepairConnect.git
-cd RepairConnect
+### 2. Configure Environment variables
+Set up your `.env` files in both the `server/` and `client/` folders as detailed in the root configuration templates.
 
-# Install Backend dependencies
-cd server
-npm install
+### 3. Startup Commands
+Open three terminal windows:
 
-# Install Frontend dependencies
-cd ../client
-npm install
-```
+* **Terminal 1: Node.js Backend**
+  ```bash
+  cd server
+  npm install
+  npm run seed
+  npm run dev
+  ```
 
-### 2. Environment Configurations
-Create `.env` inside `server/`:
-```env
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-PORT=5005
-CLIENT_URL=http://localhost:5188
-AI_API_KEY=your_gemini_api_key
-DEMO_MODE=false
-```
+* **Terminal 2: React Frontend**
+  ```bash
+  cd client
+  npm install
+  npm run dev
+  ```
 
-Create `.env` inside `client/`:
-```env
-VITE_API_URL=http://localhost:5005/api
-```
-
-### 3. Database Seeding
-Populate base materials, repair shops, and demo partners:
-```bash
-cd server
-npm run seed
-```
-
-### 4. Running the Applications
-```bash
-# Start Backend (server/):
-npm run dev
-
-# Start Frontend (client/):
-npm run dev
-
-# Start Python Vision Engine (D:/Computer_Vision/):
-D:\Computer_Vision\venv\Scripts\python.exe D:\Computer_Vision\vision_service.py
-```
-
----
-
-## 🧪 Testing Suites
-Run automated verification tests:
-```bash
-# Run Backend Unit Tests
-npm run test:unit --prefix server
-
-# Run Backend API Integration Tests
-npm run test:api --prefix server
-
-# Run Playwright E2E User Journey Tests
-npx playwright test
-```
-
----
-
-## 🏆 3-Minute Perfect Hackathon Demo Flow
-1. **Customer Registers Repair Case**: Logs in as `customer@example.com` (`password123`) $\rightarrow$ clicks **Analyze Device** $\rightarrow$ uploads image $\rightarrow$ triggers diagnosis.
-2. **Visual Inspection & Diagnostics**: Runs YOLO visual scan, and clicks **Start Diagnostics** Q&A.
-3. **Technician Gatekeeper Audit**: Logs in as `quickfix@example.com` (`password123`) $\rightarrow$ views the customer request in queue $\rightarrow$ clicks **Record Physical Inspection** $\rightarrow$ selects **Beyond Repair** $\rightarrow$ submits.
-4. **Circularity Pathways**: Customer views case $\rightarrow$ enters **Recovery Center** $\rightarrow$ sees **Circularity Hierarchy** visual showing Repair (❌), Components (🟢) $\rightarrow$ reviews 3 demo buyer bids $\rightarrow$ clicks **Accept Offer**.
-5. **Logistics Handover**: Recycler partner logs in (`demorecycler@example.com` / `password123`) $\rightarrow$ marks pickup status as **Completed** and enters verified scale weight.
-6. **Certificate Generated**: Customer prints the **Recovery Certificate** showing the e-waste diversion record.
+* **Terminal 3: Python Vision Engine (venv)**
+  ```bash
+  cd D:\Computer_Vision
+  # Run the FastAPI server directly using the virtual environment python
+  D:\Computer_Vision\venv\Scripts\python.exe D:\Computer_Vision\vision_service.py
+  ```
